@@ -1,0 +1,3 @@
+include ':module_web'
+include ':app'
+rootProject.name = "MyWebView"
