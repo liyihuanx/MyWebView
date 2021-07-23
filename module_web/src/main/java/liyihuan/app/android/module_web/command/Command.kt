@@ -6,7 +6,7 @@ interface Command {
     fun cmdName(): String
     fun exec(
         context: Context,
-        params: Map<*, *>,
+        params: Map<*, *>?,
         resultBack: ResultBack?
     )
 

@@ -24,7 +24,7 @@ class LocalCommand : BaseCommand() {
                 return CommandName.COMMAND_WEB_TITLE;
             }
 
-            override fun exec(context: Context, params: Map<*, *>, resultBack: ResultBack?) {
+            override fun exec(context: Context, params: Map<*, *>?, resultBack: ResultBack?) {
 //                resultBack?.onResult(WebConstants.SUCCESS, this.cmdName(), params)
             }
         }
@@ -36,8 +36,8 @@ class LocalCommand : BaseCommand() {
                 return CommandName.COMMAND_SHOW_TOAST
             }
 
-            override fun exec(context: Context, params: Map<*, *>, resultBack: ResultBack?) {
-                Toast.makeText(context, params[CommandName.COMMAND_MESSAGE].toString(), Toast.LENGTH_LONG).show()
+            override fun exec(context: Context, params: Map<*, *>?, resultBack: ResultBack?) {
+                Toast.makeText(context, params?.get(CommandName.COMMAND_MESSAGE).toString(), Toast.LENGTH_LONG).show()
             }
         }
     }

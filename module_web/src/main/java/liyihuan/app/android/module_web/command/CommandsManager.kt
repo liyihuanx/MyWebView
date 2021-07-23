@@ -40,7 +40,7 @@ class CommandsManager {
     fun executeCommand(
         context: Context,
         cmd: String,
-        params: Map<*, *>,
+        params: Map<*, *>?,
         resultBack: ResultBack?
     ) {
         val command = localCommand.commands[cmd]
