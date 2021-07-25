@@ -1,10 +1,15 @@
 package liyihuan.app.android.module_web.command
 
 import android.content.Context
+import android.os.IBinder
 import android.util.Log
 import android.webkit.WebView
 import com.google.gson.Gson
+import liyihuan.app.android.module_web.IWebAidlCallback
 import liyihuan.app.android.module_web.IWebAidlInterface
+import liyihuan.app.android.module_web.mainprocess.RemoteWebBinderPool
+import liyihuan.app.android.module_web.utils.SystemInfoUtil
+import liyihuan.app.android.module_web.utils.WebConstants
 import liyihuan.app.android.module_web.web.webview.BaseWebView
 
 /**
@@ -17,7 +22,7 @@ class CommandDispatcher private constructor() {
 
 
     // 实现跨进程通信的接口
-    private lateinit var webAidlInterface: IWebAidlInterface
+    private var webAidlInterface: IWebAidlInterface? = null
 
     companion object {
         val instance: CommandDispatcher by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -26,13 +31,15 @@ class CommandDispatcher private constructor() {
     }
 
 
-    fun initAidlConnected() {
+    fun initAidlConnected(context: Context) {
+        if (webAidlInterface != null) {
+            return
+        }
         Thread(Runnable {
-//            Log.i("QWER", "Begin to connect with main process")
-//            val binderPool: RemoteWebBinderPool = RemoteWebBinderPool.getInstance(context)
-//            val iBinder: IBinder = binderPool.queryBinder(RemoteWebBinderPool.BINDER_WEB_AIDL)
-//            webAidlInterface = IWebAidlInterface.Stub.asInterface(iBinder)
-//            Log.i("QWER", "Connect success with main process")
+            val binderPool: RemoteWebBinderPool = RemoteWebBinderPool.getInstance(context)
+            val iBinder: IBinder = binderPool.queryBinder(RemoteWebBinderPool.BINDER_WEB_AIDL)
+            webAidlInterface = IWebAidlInterface.Stub.asInterface(iBinder)
+
         }).start()
     }
 
@@ -41,17 +48,59 @@ class CommandDispatcher private constructor() {
      */
     fun executeCommand(
         context: Context,
+        commandLevel: Int,
         cmd: String,
         params: String?,
         webView: WebView
     ) {
         val fromJson = Gson().fromJson(params, Map::class.java)
-        CommandsManager.instance.executeCommand(context, cmd, fromJson, object : ResultBack {
-            override fun onResult(status: Int, cmdName: String, params: Any) {
-                Log.d("QWER", "onResult: status:$status,action:$cmdName,result$params")
-                (webView as BaseWebView).handleCallBack(status, cmdName, Gson().toJson(params))
+
+
+
+
+
+        if (SystemInfoUtil.inMainProcess(context, android.os.Process.myPid())) {
+            Log.d("QWER", "在同一个进程: ")
+            CommandsManager.instance.executeCommand(
+                context,
+                commandLevel,
+                cmd,
+                fromJson,
+                object : ResultBack {
+                    override fun onResult(status: Int, cmdName: String, params: Any) {
+                        Log.d("QWER", "onResult: status:$status,action:$cmdName,result$params")
+                        (webView as BaseWebView).handleCallBack(
+                            status,
+                            cmdName,
+                            Gson().toJson(params)
+                        )
+                    }
+                })
+        } else {
+            Log.d("QWER", "不是在同一个进程: ")
+            if (commandLevel == WebConstants.LEVEL_LOCAL) {
+
+            } else {
+                webAidlInterface?.handleWebAction(
+                    commandLevel,
+                    cmd,
+                    params,
+                    object : IWebAidlCallback.Stub() {
+                        override fun onResult(
+                            responseCode: Int,
+                            actionName: String,
+                            response: String?
+                        ) {
+                            Log.d("QWER", "AIDL - 回调 ")
+                            (webView as BaseWebView).handleCallBack(
+                                responseCode,
+                                actionName,
+                                Gson().toJson(params)
+                            )
+                        }
+                    })
             }
-        })
+        }
     }
 
 

@@ -45,7 +45,7 @@ abstract class BaseWebViewFragment : Fragment(), WebViewCallBack {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         webView.webViewCallBack = this
-        CommandDispatcher.instance.initAidlConnected()
+        CommandDispatcher.instance.initAidlConnected(requireContext())
         loadUrl()
 
     }
@@ -101,7 +101,7 @@ abstract class BaseWebViewFragment : Fragment(), WebViewCallBack {
         params: String?,
         webView: WebView
     ) {
-        CommandDispatcher.instance.executeCommand(context, cmd, params, webView)
+        CommandDispatcher.instance.executeCommand(context,commandLevel, cmd, params, webView)
     }
 
 }

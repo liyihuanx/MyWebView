@@ -1,7 +1,6 @@
 package liyihuan.app.android.module_web.command
 
 import android.content.Context
-import android.util.Log
 import liyihuan.app.android.module_web.utils.WebConstants
 
 /**
@@ -14,6 +13,10 @@ class CommandsManager {
 
     private val localCommand by lazy {
         LocalCommand()
+    }
+
+    private val remoteCommands by lazy {
+        RemoteCommands()
     }
 
 
@@ -33,18 +36,23 @@ class CommandsManager {
         when (commandLevel) {
             WebConstants.LEVEL_LOCAL -> localCommand.registerCommand(command)
 //            WebConstants.LEVEL_BASE -> baseLevelCommands.registerCommand(command)
-//            WebConstants.LEVEL_ACCOUNT -> accountLevelCommands.registerCommand(command)
+            WebConstants.LEVEL_REMOTE -> remoteCommands.registerCommand(command)
         }
     }
 
     fun executeCommand(
         context: Context,
+        commandLevel: Int,
         cmd: String,
         params: Map<*, *>?,
         resultBack: ResultBack?
     ) {
-        val command = localCommand.commands[cmd]
-        command?.exec(context, params, resultBack)
+
+        when(commandLevel){
+            WebConstants.LEVEL_LOCAL -> localCommand.commands[cmd]?.exec(context, params, resultBack)
+            WebConstants.LEVEL_REMOTE -> remoteCommands.commands[cmd]?.exec(context, params, resultBack)
+        }
+
 
     }
 

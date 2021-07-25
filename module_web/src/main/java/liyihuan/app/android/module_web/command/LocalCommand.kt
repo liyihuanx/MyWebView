@@ -45,6 +45,5 @@ class LocalCommand : BaseCommand() {
     init {
         registerCommand(webTitleCommand)
         registerCommand(showToastCommand)
-
     }
 }

@@ -17,7 +17,7 @@ class CommonWebFragment : BaseWebViewFragment() {
     }
 
     override fun getCommandLevel(): Int {
-        return WebConstants.LEVEL_BASE
+        return WebConstants.LEVEL_LOCAL
     }
 
     companion object {

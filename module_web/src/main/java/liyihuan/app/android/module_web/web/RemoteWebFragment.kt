@@ -12,24 +12,24 @@ import java.util.*
  * @Author: liyihuan
  * @Date: 2021/7/21 22:29
  */
-class AccountWebFragment : BaseWebViewFragment() {
+class RemoteWebFragment : BaseWebViewFragment() {
     override fun getLayoutRes(): Int {
         return R.layout.fragment_common_webview
     }
 
     override fun getCommandLevel(): Int {
-        return WebConstants.LEVEL_ACCOUNT
+        return WebConstants.LEVEL_REMOTE
     }
 
     companion object {
         fun newInstance(
             url: String?,
             headers: HashMap<String?, String?>?
-        ): AccountWebFragment {
+        ): RemoteWebFragment {
             val args = Bundle()
             args.putString(WebConstants.INTENT_TAG_URL, url)
             args.putSerializable(ACCOUNT_INFO_HEADERS, headers)
-            val fragment = AccountWebFragment()
+            val fragment = RemoteWebFragment()
             fragment.arguments = args
             return fragment
         }

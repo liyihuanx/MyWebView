@@ -3,8 +3,10 @@ package liyihuan.app.android.module_web.utils;
 public class WebConstants {
 
     public static final int LEVEL_LOCAL = 0; // local command, that is to say, this command execution does not require app.
-    public static final int LEVEL_BASE = 1; // 基础level
-    public static final int LEVEL_ACCOUNT = 2; // 涉及到账号相关的level
+    public static final int LEVEL_REMOTE = 1; // 需要AIDL的
+
+//    public static final int LEVEL_BASE = 1; // 基础level
+//    public static final int LEVEL_ACCOUNT = 2; // 涉及到账号相关的level
 
     public static final int CONTINUE = 2; // 继续分发command
     public static final int SUCCESS = 1; // 成功
