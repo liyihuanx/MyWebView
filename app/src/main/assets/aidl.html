@@ -28,16 +28,16 @@
         dj.postWithCallback("showDialog",
             {title: "Note", content: "This is web call native to show dialog." ,buttons:[{title:"confirm", id: "confirm"},{title:"cancel", id: "cancel"}]},function(paras) {
             if (paras.id == 'confirm') {
-                dj.post("show_toast", {message: "confirm"});
+                dj.post("show_toast", {command_message: "confirm"});
             } else if (paras.id == 'cancel') {
-                dj.post("show_toast", {message: "cancel"});
+                dj.post("show_toast", {command_message: "cancel"});
             }
         });
     }
 
     function callAppDataProvider() {
         dj.postWithCallback("appDataProvider", {type: "account"}, function(res) {
-            dj.post("show_toast", {message: JSON.stringify(res)});
+            dj.post("show_toast", {command_message: JSON.stringify(res)});
         });
     }
 
@@ -51,7 +51,7 @@
 
     function login() {
         dj.postWithCallback("appLogin", {type: "account"}, function(res) {
-            dj.post("show_toast", {message: JSON.stringify(res)});
+            dj.post("show_toast", {command_message: JSON.stringify(res)});
         });
     }
 </script>

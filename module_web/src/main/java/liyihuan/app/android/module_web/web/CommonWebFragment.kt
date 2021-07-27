@@ -16,10 +16,6 @@ class CommonWebFragment : BaseWebViewFragment() {
         return R.layout.fragment_common_webview
     }
 
-    override fun getCommandLevel(): Int {
-        return WebConstants.LEVEL_LOCAL
-    }
-
     companion object {
         fun newInstance(url: String): CommonWebFragment {
             val args = Bundle()

@@ -96,12 +96,11 @@ abstract class BaseWebViewFragment : Fragment(), WebViewCallBack {
 
     override fun exec(
         context: Context,
-        commandLevel: Int,
         cmd: String,
         params: String?,
         webView: WebView
     ) {
-        CommandDispatcher.instance.executeCommand(context,commandLevel, cmd, params, webView)
+        CommandDispatcher.instance.executeCommand(context, cmd, params, webView)
     }
 
 }

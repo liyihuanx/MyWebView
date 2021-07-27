@@ -17,7 +17,6 @@ class LocalCommand : BaseCommand() {
         return WebConstants.LEVEL_LOCAL
     }
 
-
     private val webTitleCommand by lazy {
         object : Command {
             override fun cmdName(): String {

@@ -16,7 +16,7 @@ import liyihuan.app.android.module_web.web.webset.DefaultWebViewClient
  * @Author: liyihuan
  * @Date: 2021/7/15 22:09
  */
-public class BaseWebView @JvmOverloads constructor(
+class BaseWebView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -44,7 +44,7 @@ public class BaseWebView @JvmOverloads constructor(
          */
         javascriptInterface.javascriptCommand = { context, cmd, param ->
 
-            webViewCallBack?.exec(context, webViewCallBack!!.getCommandLevel(), cmd, param, this)
+            webViewCallBack?.exec(context, cmd, param, this)
         }
         addJavascriptInterface(javascriptInterface, "webview")
 
@@ -53,7 +53,7 @@ public class BaseWebView @JvmOverloads constructor(
     /**
      * 执行Js的回调
      */
-    fun handleCallBack(status: Int, cmdName: String, result: Any) {
+    fun handleCallBack(status: Int, cmdName: String, result: Any?) {
         val trigger = "javascript:dj.callback($result)"
         Log.d("QWER", "handleCallBack: $trigger")
         evaluateJavascript(trigger, null)

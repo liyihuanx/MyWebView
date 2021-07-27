@@ -47,13 +47,15 @@ class CommandsManager {
         params: Map<*, *>?,
         resultBack: ResultBack?
     ) {
-
         when(commandLevel){
             WebConstants.LEVEL_LOCAL -> localCommand.commands[cmd]?.exec(context, params, resultBack)
             WebConstants.LEVEL_REMOTE -> remoteCommands.commands[cmd]?.exec(context, params, resultBack)
         }
+    }
 
-
+    fun isLocalCommand(cmd: String): Boolean {
+        val command = localCommand.commands[cmd]
+        return command != null
     }
 
 }

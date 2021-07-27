@@ -11,9 +11,6 @@ import android.webkit.WebView
  */
 interface WebViewCallBack {
 
-
-    fun getCommandLevel(): Int
-
     fun pageStarted(url: String?)
 
     fun pageFinished(url: String?)
@@ -24,7 +21,6 @@ interface WebViewCallBack {
 
     fun exec(
         context: Context,
-        commandLevel: Int,
         cmd: String,
         params: String?,
         webView: WebView

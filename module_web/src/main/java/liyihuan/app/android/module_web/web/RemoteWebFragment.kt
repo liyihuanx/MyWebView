@@ -17,10 +17,6 @@ class RemoteWebFragment : BaseWebViewFragment() {
         return R.layout.fragment_common_webview
     }
 
-    override fun getCommandLevel(): Int {
-        return WebConstants.LEVEL_REMOTE
-    }
-
     companion object {
         fun newInstance(
             url: String?,
