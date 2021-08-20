@@ -28,7 +28,6 @@ class DefaultWebChromeClient : WebChromeClient() {
             params[CommandName.COMMAND_WEB_TITLE_PARAMS] = title
             (view as BaseWebView).webViewCallBack?.exec(
                 view.context,
-                WebConstants.LEVEL_LOCAL,
                 CommandName.COMMAND_WEB_TITLE,
                 Gson().toJson(params),
                 view

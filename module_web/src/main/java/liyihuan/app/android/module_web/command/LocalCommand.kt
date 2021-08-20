@@ -29,20 +29,20 @@ class LocalCommand : BaseCommand() {
         }
     }
 
-    private val showToastCommand by lazy {
-        object : Command {
-            override fun cmdName(): String {
-                return CommandName.COMMAND_SHOW_TOAST
-            }
-
-            override fun exec(context: Context, params: Map<*, *>?, resultBack: ResultBack?) {
-                Toast.makeText(context, params?.get(CommandName.COMMAND_MESSAGE).toString(), Toast.LENGTH_LONG).show()
-            }
-        }
-    }
+//    private val showToastCommand by lazy {
+//        object : Command {
+//            override fun cmdName(): String {
+//                return CommandName.COMMAND_SHOW_TOAST
+//            }
+//
+//            override fun exec(context: Context, params: Map<*, *>?, resultBack: ResultBack?) {
+//                Toast.makeText(context, params?.get(CommandName.COMMAND_MESSAGE).toString(), Toast.LENGTH_LONG).show()
+//            }
+//        }
+//    }
 
     init {
         registerCommand(webTitleCommand)
-        registerCommand(showToastCommand)
+//        registerCommand(showToastCommand)
     }
 }

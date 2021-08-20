@@ -3,12 +3,17 @@ package liyihuan.app.android.mywebview
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import liyihuan.app.android.module_web.command.Command
+import liyihuan.app.android.module_web.command.CommandName
 import liyihuan.app.android.module_web.command.CommandsManager
 import liyihuan.app.android.module_web.command.ResultBack
 import liyihuan.app.android.module_web.utils.AidlError
+import liyihuan.app.android.module_web.utils.MainLooper
+import liyihuan.app.android.module_web.utils.SystemInfoUtil
 import liyihuan.app.android.module_web.utils.WebConstants
 import liyihuan.app.android.module_web.web.webview.BaseWebView
 import java.util.*
@@ -19,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         CommandsManager.instance.registerCommand(WebConstants.LEVEL_REMOTE, appDataProviderCommand)
+        CommandsManager.instance.registerCommand(WebConstants.LEVEL_REMOTE, showToast)
 
 
         btnWebActivity.setOnClickListener {
@@ -83,4 +89,20 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
+    private val showToast: Command = object : Command {
+        override fun cmdName(): String {
+            return CommandName.COMMAND_SHOW_TOAST
+        }
+
+        override fun exec(context: Context, params: Map<*, *>?, resultBack: ResultBack?) {
+            MainLooper.runOnUiThread {
+                Toast.makeText(context, params?.get(CommandName.COMMAND_MESSAGE).toString(), Toast.LENGTH_LONG).show()
+            }
+
+//            resultBack?.onResult(WebConstants.SUCCESS, cmdName(), map)
+        }
+    }
+
 }
